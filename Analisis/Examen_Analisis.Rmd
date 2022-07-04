@@ -1,0 +1,172 @@
+---
+title: "Características de los principales proveedores del hogar en Chile. Análisis en R."
+author: "Camilo Riquelme"
+date: '2022-07-02'
+output:
+  html_document:
+    theme: cerulean
+---
+
+![](https://www.uahurtado.cl/wp-images/uploads/2015/05/uah2.png)
+
+##### Universidad Alberto Hurtado
+
+##### Carrera: Sociología
+
+##### Profesora: Valentina Andrade de la Horra
+
+##### Ayudantes: Nicolás Godoy Marquéz y Dafne Jaime Vargas
+
+##### Estudiante: Camilo Riquelme
+
+## Abstract:
+
+In this analysis I want to know the characteristics of the main household providers in Chile, through the information obtained from the ENE survey (march-may, 2022). This includes the average hours (daily and weekly) by region and by gender of the main providers, the number of days a week they work (gender and region), age group, occupational group, educational level and gender in which the providers are found.
+
+## Resumen: 
+
+En el presente análisis quiero conocer las características de los/as principales proveedores del hogar en Chile, a través de la informacion obtenida de la encuesta ENE (marzo-mayo, 2022). Esto incluye el promedio de horas (diaria y semanal) por región y por sexo de los principales proveedores, cantidad de días a la semana que estos trabajan (sexo y region), tramo etario, grupo ocupacional, nivel educacional y sexo en que se encuentran los proveedores.
+
+## Introducción:
+
+A lo largo de nuestra vida hemos escuchado muchas características respecto a los/as proveedores del hogar, siendo una exigencia o imposición cumplir con estas condiciones de buen/a proveedor/a del hogar. En este caso realizaré un análisis de estas características con datos e información obtenidas en la Encuesta Nacional de Empleo (ENE), especificamente de marzo-abril-mayo del presente año 2022.
+El análisis incluye el promedio de horas (diaria y semanal) por región y por sexo de los principales proveedores, cantidad de días a la semana que estos trabajan (sexo y region), tramo etario, grupo ocupacional, nivel educacional y sexo en que se encuentran los proveedores.
+La idea principal es observar cuales son las 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r paquetes, include=FALSE}
+pacman::p_load(tidyverse, sjmisc, sjPlot, survey, srvyr, kableExtra)
+```
+
+```{r datos, include=FALSE}
+data_proc=readRDS("output/data/datos_proc.rds")
+```
+
+```{r creacion objeto encuesta, include=FALSE}
+data_proc=data_proc%>%
+  group_by(estrato) %>% #Agrupando por estrato
+  mutate(stratn = sum(fact_cal)) %>%  #Calculamos el total de personas por estrato
+  ungroup()
+```
+
+```{r obj_enc, include=FALSE}
+ obj_enc = data_proc%>%
+   as_survey_design(ids = 1, 
+                   strata = estrato,
+                   fpc = stratn, #especificando que la estimación es con una población finita
+                   weights = fact_cal)
+```
+
+## Análisis:
+
+## Gráficos: sexo, nivel educacional, grupo ocupacional, tramo etario y MTC edad de los principales proveedores del hogar en Chile.
+
+```{r grafico 1, echo=FALSE, warning=FALSE}
+plot_grpfrq(obj_enc$variables$proveedor, obj_enc$variables$sexo, 
+          title = "Principales proveedores segun sexo", geom.colors = "")
+```
+
+```{r save plot 1, include=FALSE}
+save_plot("output/fig/Sexo-Proveedores.png", fig = last_plot())
+```
+
+```{r grafico 2, echo=FALSE, warning=FALSE}
+plot_grpfrq(obj_enc$variables$proveedor, obj_enc$variables$cine, 
+            title = "Nivel eduacional de los principales proveedores")
+```
+
+```{r save plot 2, include=FALSE}
+save_plot("output/fig/NivelEduc-Proveedores.png", fig = last_plot())
+```
+
+```{r grafico 3, echo=FALSE, warning=FALSE}
+plot_grpfrq(obj_enc$variables$proveedor, obj_enc$variables$b1, 
+            title = "Grupo ocupacional de los principales proveedores", coord.flip = T)
+```
+
+```{r save plot 3, include=FALSE}
+save_plot("output/fig/GrupOcup-Proveedores.png", fig = last_plot())
+```
+
+```{r grafico 4, echo=FALSE, warning=FALSE}
+plot_frq(obj_enc$variables$edad_tr, 
+         title = "Tramo etario de los principales proveedores",
+         geom.colors = "black")
+```
+
+```{r save plot 4, include=FALSE}
+save_plot("output/fig/TramoEdad-Proveedores.png", fig = last_plot())
+```
+
+```{r MTC edad, echo=FALSE}
+data_proc %>% 
+  select(edad) %>%
+  descr(show = c("label", "n", "mean", "sd", "md", "range")) %>% 
+  kable(format = "html",
+        caption = "MTC Edad de los/as principales proveedores del hogar",
+        col.names = c("Variable", "Etiqueta", "n", "Media", "D. estandar", "Mediana", "Rango"),
+        position = "center") %>%
+  kable_classic(full_width = F,
+                html_font = "Cambria") %>% 
+  footnote("Elaboración propia en base a ENE (2022)",
+           general_title = "Fuente: ")
+```
+
+## Tablas de promedio de horas (diarias - semanales) y promedio de días a la semana trabajados por los principales proveedores según región.
+
+```{r tabla 1, echo=FALSE}
+sjt.xtab(data_proc$prom_hrs_drs_reg, data_proc$region,
+         title = "Promedio de horas diarias trabajadas por los principales proveedores segun region",
+         show.col.prc = T, 
+         show.row.prc = T,
+         encoding = "UTF-8")
+```
+
+```{r tabla 2, echo=FALSE}
+sjt.xtab(data_proc$prom_hrs_sem_reg, data_proc$region,
+         title = "Promedio de horas semanales trabajadas por los principales proveedores segun region",
+         show.col.prc = T, 
+         show.row.prc = T,
+         encoding = "UTF-8")
+```
+
+```{r tabla 3, echo=FALSE}
+sjt.xtab(data_proc$prom_dias_tr_reg, data_proc$region,
+         title = "Promedio de días a la semana trabajados por los principales proveedores segun region",
+         show.col.prc = T, 
+         show.row.prc = T,
+         encoding = "UTF-8")
+```
+
+## Tablas de promedio de horas (diarias - semanales) y promedio de días a la semana trabajados por los principales proveedores según sexo.
+
+```{r tabla 4, echo=FALSE}
+sjt.xtab(data_proc$prom_hrs_drs_sexo, data_proc$sexo,
+         title = "Promedio de horas diarias trabajadas por los principales proveedores segun sexo",
+         show.col.prc = T, 
+         show.row.prc = T,
+         encoding = "UTF-8")
+```
+
+```{r tabla 5, echo=FALSE}
+sjt.xtab(data_proc$prom_hrs_sem_sexo, data_proc$sexo,
+         title = "Promedio de horas semanales trabajadas por los principales proveedores segun sexo",
+         show.col.prc = T, 
+         show.row.prc = T,
+         encoding = "UTF-8")
+```
+
+```{r tabla 6, echo=FALSE}
+sjt.xtab(data_proc$prom_dias_tr_sexo, data_proc$sexo,
+         title = "Promedio de días a la semana trabajados por los principales proveedores segun sexo",
+         show.col.prc = T, 
+         show.row.prc = T,
+         encoding = "UTF-8")
+```
+
+## Conclusión:
+
+## Referencias:
