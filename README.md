@@ -1,6 +1,6 @@
 ---
 title: "README"
-author: "Camilo Riquelme"
+author: "Camilo Riquelme Horta"
 date: '2022-06-30'
 Universidad: "Alberto Hurtado"
 Carrera: "Sociología" 
