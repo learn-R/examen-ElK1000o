@@ -2,11 +2,12 @@
 title: "README"
 author: "Camilo Riquelme Horta"
 date: '2022-06-30'
-Universidad: "Alberto Hurtado"
-Carrera: "Sociología" 
-Docente: "Valentina Andrade de la Horra" 
-Ayudantes: "Nicolas Godoy Marquez y Dafne Jaime Vargas"
 ---
+
+## Universidad: "Alberto Hurtado"
+## Carrera: "Sociología" 
+## Docente: "Valentina Andrade de la Horra" 
+## Ayudantes: "Nicolas Godoy Marquez y Dafne Jaime Vargas"
 
 En el repositorio de datos, ubicado en la carpeta examen-ElK1000o, se encuentra el .Rproj (examen.Rproj) que se debe abrir para realizar procesamiento de los datos. 
 
@@ -21,9 +22,9 @@ De igual forma los siguientes link son para la descarga directa de los datos:
 
 El presente repositorio está organizado en 6 carpetas especificas:
 
-Carpeta R: conteniendo el archivo .R de procesamiento de datos *R_01-proc.R*, el cual debe ejecutarse en su totalidad y luego proceder a ejecutar y revisar el archivo Examen_analisis.Rmd (carepeta Analisis) con el analisis de los datos ya procesados.
+Carpeta R: conteniendo el archivo .R de procesamiento de datos *R_01-proc.R*, el cual debe ejecutarse en su totalidad y luego proceder a ejecutar y revisar el archivo Examen_analisis.Rmd (carepeta Analisis) con el análisis de los datos ya procesados.
 
-Carpeta Analisis: Se encuentra el archivo .Rmd y .html con el análisis de los datos ya procesados.
+Carpeta Análisis: Se encuentra el archivo .Rmd y .html con el análisis de los datos ya procesados.
 
 Instrucciones Examen: Contiene README.md con instrucciones para el presente examen.
 

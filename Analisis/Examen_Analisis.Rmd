@@ -60,7 +60,7 @@ pacman::p_load(tidyverse, sjmisc, sjPlot, survey, srvyr, kableExtra)
 ```
 
 ```{r datos, include=FALSE}
-data_proc=readRDS("output/data/datos_proc.rds")
+data_proc=readRDS("../output/data/datos_proc.rds")
 ```
 
 ```{r creacion objeto encuesta, include=FALSE}
@@ -89,7 +89,7 @@ plot_grpfrq(obj_enc$variables$proveedor, obj_enc$variables$sexo,
 ```
 
 ```{r save plot 1, include=FALSE}
-save_plot("output/fig/Sexo-Proveedores.png", fig = last_plot())
+save_plot("../output/fig/Sexo-Proveedores.png", fig = last_plot())
 ```
 
 ```{r grafico 2, echo=FALSE, warning=FALSE}
@@ -101,7 +101,7 @@ plot_frq(obj_enc$variables$cine,
 ```
 
 ```{r save plot 2, include=FALSE}
-save_plot("output/fig/NivelEduc-Proveedores.png", fig = last_plot())
+save_plot("../output/fig/NivelEduc-Proveedores.png", fig = last_plot())
 ```
 
 ```{r grafico 3, echo=FALSE, warning=FALSE}
@@ -113,7 +113,7 @@ plot_frq(obj_enc$variables$b1,
 ```
 
 ```{r save plot 3, include=FALSE}
-save_plot("output/fig/GrupOcup-Proveedores.png", fig = last_plot())
+save_plot("../output/fig/GrupOcup-Proveedores.png", fig = last_plot())
 ```
 
 ```{r grafico 4, echo=FALSE, warning=FALSE}
@@ -125,7 +125,7 @@ plot_frq(obj_enc$variables$edad_tr,
 ```
 
 ```{r save plot 4, include=FALSE}
-save_plot("output/fig/TramoEdad-Proveedores.png", fig = last_plot())
+save_plot("../output/fig/TramoEdad-Proveedores.png", fig = last_plot())
 ```
 
 ```{r MTC edad, echo=FALSE}
